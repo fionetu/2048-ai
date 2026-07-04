@@ -15,8 +15,8 @@ export function Tile({ tile, tileSize, gap }: TileProps) {
   const fontSize =
     value < 100 ? tileSize * 0.58 : value < 1000 ? tileSize * 0.48 : tileSize * 0.38;
 
-  const left = gap + col * (tileSize + gap);
-  const top = gap + row * (tileSize + gap);
+  const left = gap + col * (tileSize + gap) - 1;
+  const top = gap + row * (tileSize + gap) - 1;
 
   return (
     <div
