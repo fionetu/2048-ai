@@ -15,8 +15,8 @@ export function Tile({ tile, tileSize, gap }: TileProps) {
   const fontSize =
     value < 100 ? tileSize * 0.58 : value < 1000 ? tileSize * 0.48 : tileSize * 0.38;
 
-  const left = gap + col * (tileSize + gap) - 1;
-  const top = gap + row * (tileSize + gap) - 1;
+  const left = gap + col * (tileSize + gap);
+  const top = gap + row * (tileSize + gap);
 
   return (
     <div
@@ -30,7 +30,7 @@ export function Tile({ tile, tileSize, gap }: TileProps) {
       }}
     >
       <div
-        className={`w-full h-full flex items-center justify-center rounded-md font-bold leading-none ${
+        className={`w-full h-full flex items-center justify-center rounded-sm font-bold leading-none ${
           isNew ? "tile-new" : ""
         } ${isMerged ? "tile-merged" : ""}`}
         style={{
