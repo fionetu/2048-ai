@@ -25,7 +25,7 @@ export function Board({ tiles, suggestedMove }: BoardProps) {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
-  const gap = Math.max(8, Math.floor(boardSize * 0.025));
+  const gap = Math.max(10, Math.floor(boardSize * 0.03));
   const tileSize =
     boardSize > 0
       ? (boardSize - gap * (GRID_SIZE + 1)) / GRID_SIZE
@@ -34,7 +34,7 @@ export function Board({ tiles, suggestedMove }: BoardProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-[360px] sm:max-w-[400px] aspect-square rounded-lg"
+      className="relative w-full max-w-[360px] sm:max-w-[400px] aspect-square rounded-xl"
       style={{
         backgroundColor: "var(--board-bg)",
       }}
@@ -47,7 +47,7 @@ export function Board({ tiles, suggestedMove }: BoardProps) {
         {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => (
           <div
             key={index}
-            className="rounded-md"
+            className="rounded-lg"
             style={{ backgroundColor: "var(--cell-bg)" }}
           />
         ))}

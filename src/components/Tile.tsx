@@ -11,8 +11,9 @@ export function Tile({ tile, tileSize, gap }: TileProps) {
   const { value, row, col, isNew, isMerged, isMerging } = tile;
   const color = TILE_COLORS[value] ?? DEFAULT_TILE_COLOR;
 
+  // Scale font size relative to tile size so numbers stay centered and readable.
   const fontSize =
-    value < 100 ? 55 : value < 1000 ? 45 : value < 10000 ? 35 : 25;
+    value < 100 ? tileSize * 0.58 : value < 1000 ? tileSize * 0.48 : tileSize * 0.38;
 
   const left = gap + col * (tileSize + gap);
   const top = gap + row * (tileSize + gap);
@@ -29,7 +30,7 @@ export function Tile({ tile, tileSize, gap }: TileProps) {
       }}
     >
       <div
-        className={`w-full h-full flex items-center justify-center rounded-md font-bold ${
+        className={`w-full h-full flex items-center justify-center rounded-md font-bold leading-none ${
           isNew ? "tile-new" : ""
         } ${isMerged ? "tile-merged" : ""}`}
         style={{
