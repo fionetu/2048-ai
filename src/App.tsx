@@ -25,11 +25,12 @@ function App() {
     isGameOver: state.isGameOver,
     hasWon: state.hasWon,
     wonButContinuing: state.wonButContinuing,
+    isAnimating: state.isAnimating,
     onMove: move,
     onSuggest: setSuggestedMove,
   });
 
-  const inputEnabled = !state.isGameOver && !state.isAIPlaying;
+  const inputEnabled = !state.isGameOver && !state.isAIPlaying && !state.isAnimating;
   useKeyboard(move, inputEnabled);
   useTouchSwipe(move, inputEnabled);
 

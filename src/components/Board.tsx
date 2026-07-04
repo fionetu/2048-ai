@@ -37,12 +37,12 @@ export function Board({ tiles, suggestedMove }: BoardProps) {
       className="relative w-full max-w-[360px] sm:max-w-[400px] aspect-square rounded-lg"
       style={{
         backgroundColor: "var(--board-bg)",
-        padding: gap,
       }}
     >
       {/* Background grid cells */}
-      <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 gap-2 p-2"
-        style={{ gap }}
+      <div
+        className="absolute inset-0 grid grid-cols-4 grid-rows-4"
+        style={{ padding: gap, gap }}
       >
         {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => (
           <div

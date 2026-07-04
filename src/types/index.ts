@@ -12,6 +12,21 @@ export interface TileData {
   col: number;
   isNew?: boolean;
   isMerged?: boolean;
+  isMerging?: boolean;
+}
+
+export interface MergeEvent {
+  sourceIds: [number, number];
+  target: Position;
+  value: number;
+}
+
+export interface MoveResult {
+  tiles: TileData[];
+  scoreDelta: number;
+  moved: boolean;
+  nextId: number;
+  mergeEvents: MergeEvent[];
 }
 
 export interface GameState {
@@ -25,6 +40,7 @@ export interface GameState {
   aiSpeed: "slow" | "normal" | "fast";
   suggestedMove: Direction | null;
   nextId: number;
+  isAnimating: boolean;
 }
 
 export type BoardGrid = number[][];

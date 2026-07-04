@@ -11,6 +11,7 @@ interface UseAIProps {
   isGameOver: boolean;
   hasWon: boolean;
   wonButContinuing: boolean;
+  isAnimating: boolean;
   onMove: (direction: Direction) => void;
   onSuggest: (direction: Direction | null) => void;
 }
@@ -22,6 +23,7 @@ export function useAI({
   isGameOver,
   hasWon,
   wonButContinuing,
+  isAnimating,
   onMove,
   onSuggest,
 }: UseAIProps) {
@@ -71,6 +73,7 @@ export function useAI({
     const interval = AI_SPEEDS[aiSpeed];
 
     const makeMove = () => {
+      if (isAnimating) return;
       const now = Date.now();
       if (now - lastMoveTimeRef.current < interval) return;
       const direction = computeBestMove();
@@ -95,6 +98,7 @@ export function useAI({
     hasWon,
     wonButContinuing,
     aiSpeed,
+    isAnimating,
     computeBestMove,
     onMove,
   ]);

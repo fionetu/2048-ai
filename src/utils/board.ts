@@ -1,4 +1,4 @@
-import type { TileData, Direction, BoardGrid } from "../types";
+import type { TileData, Direction, BoardGrid, MoveResult, MergeEvent } from "../types";
 import { GRID_SIZE, NEW_TILE_PROBABILITY_4 } from "./constants";
 
 export function tilesToGrid(tiles: TileData[]): BoardGrid {
@@ -134,12 +134,7 @@ export function moveBoard(
   tiles: TileData[],
   direction: Direction,
   nextId: number
-): {
-  tiles: TileData[];
-  scoreDelta: number;
-  moved: boolean;
-  nextId: number;
-} {
+): MoveResult {
   const beforeGrid = tilesToGrid(tiles);
   let moved = false;
   let scoreDelta = 0;
@@ -153,16 +148,22 @@ export function moveBoard(
   }
 
   if (!moved) {
-    return { tiles, scoreDelta: 0, moved: false, nextId };
+    return { tiles, scoreDelta: 0, moved: false, nextId, mergeEvents: [] };
   }
 
   let currentNextId = nextId;
   const newTiles: TileData[] = [];
+  const mergeEvents: MergeEvent[] = [];
 
   // Second pass: map tiles to new positions preserving ids and marking merges.
   for (let i = 0; i < GRID_SIZE; i++) {
     const lineTiles = getLineTiles(tiles, direction, i);
-    const processed: { value: number; id: number; isMerged: boolean }[] = [];
+    const processed: {
+      value: number;
+      id: number;
+      isMerged: boolean;
+      sourceIds?: [number, number];
+    }[] = [];
     let j = 0;
     while (j < lineTiles.length) {
       const current = lineTiles[j];
@@ -172,6 +173,7 @@ export function moveBoard(
           value: current.value * 2,
           id: currentNextId++,
           isMerged: true,
+          sourceIds: [current.id, next.id],
         });
         j += 2;
       } else {
@@ -187,6 +189,16 @@ export function moveBoard(
     for (let slot = 0; slot < processed.length; slot++) {
       const pos = getResultPosition(direction, i, slot);
       const item = processed[slot];
+
+      // Record merge event with source tile ids and target position.
+      if (item.sourceIds) {
+        mergeEvents.push({
+          sourceIds: item.sourceIds,
+          target: pos,
+          value: item.value,
+        });
+      }
+
       newTiles.push({
         id: item.id,
         value: item.value,
@@ -215,7 +227,7 @@ export function moveBoard(
     });
   }
 
-  return { tiles: newTiles, scoreDelta, moved: true, nextId: currentNextId };
+  return { tiles: newTiles, scoreDelta, moved: true, nextId: currentNextId, mergeEvents };
 }
 
 export function spawnTile(

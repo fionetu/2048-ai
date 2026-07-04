@@ -8,7 +8,7 @@ interface TileProps {
 }
 
 export function Tile({ tile, tileSize, gap }: TileProps) {
-  const { value, row, col, isNew, isMerged } = tile;
+  const { value, row, col, isNew, isMerged, isMerging } = tile;
   const color = TILE_COLORS[value] ?? DEFAULT_TILE_COLOR;
 
   const fontSize =
@@ -19,20 +19,27 @@ export function Tile({ tile, tileSize, gap }: TileProps) {
 
   return (
     <div
-      className={`absolute flex items-center justify-center rounded-md font-bold transition-transform duration-150 ease-in-out ${
-        isNew ? "tile-new" : ""
-      } ${isMerged ? "tile-merged" : ""}`}
+      className="absolute transition-transform duration-150 ease-in-out"
       style={{
         width: tileSize,
         height: tileSize,
         transform: `translate(${left}px, ${top}px)`,
-        backgroundColor: color.bg,
-        color: color.text,
-        fontSize,
-        zIndex: isMerged ? 2 : 1,
+        zIndex: isMerging ? 1 : isMerged ? 3 : 2,
+        opacity: isMerging ? 0.9 : 1,
       }}
     >
-      {value}
+      <div
+        className={`w-full h-full flex items-center justify-center rounded-md font-bold ${
+          isNew ? "tile-new" : ""
+        } ${isMerged ? "tile-merged" : ""}`}
+        style={{
+          backgroundColor: color.bg,
+          color: color.text,
+          fontSize,
+        }}
+      >
+        {value}
+      </div>
     </div>
   );
 }
