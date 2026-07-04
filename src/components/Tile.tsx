@@ -15,8 +15,11 @@ export function Tile({ tile, tileSize, gap }: TileProps) {
   const fontSize =
     value < 100 ? tileSize * 0.58 : value < 1000 ? tileSize * 0.48 : tileSize * 0.38;
 
-  const left = gap + col * (tileSize + gap);
-  const top = gap + row * (tileSize + gap);
+  // Offset tiles up-left to compensate for rendering mismatch between
+  // calculated position and the actual CSS Grid cell position.
+  const offset = tileSize * 0.12;
+  const left = gap + col * (tileSize + gap) - offset;
+  const top = gap + row * (tileSize + gap) - offset;
 
   return (
     <div
