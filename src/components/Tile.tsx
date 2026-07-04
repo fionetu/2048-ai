@@ -37,6 +37,9 @@ export function Tile({ tile, tileSize, gap }: TileProps) {
           backgroundColor: color.bg,
           color: color.text,
           fontSize,
+          boxShadow: isMerging
+            ? "none"
+            : "0 2px 4px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
         }}
       >
         {value}
