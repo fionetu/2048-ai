@@ -17,9 +17,7 @@ export function Tile({ tile, tileSize, gap }: TileProps) {
 
   // Offset tiles up-left to compensate for rendering mismatch between
   // calculated position and the actual CSS Grid cell position.
-  // Offset tiles up-left to compensate for rendering mismatch between
-  // calculated position and the actual CSS Grid cell position.
-  const offset = tileSize * 0.12;
+  const offset = tileSize * 0.14;
   const left = gap + col * (tileSize + gap) - offset;
   const top = gap + row * (tileSize + gap) - offset;
 
